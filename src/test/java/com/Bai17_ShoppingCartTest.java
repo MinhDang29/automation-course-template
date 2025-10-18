@@ -18,7 +18,7 @@ public class Bai17_ShoppingCartTest extends BasicTest {
         String cleanedPrice = priceText.replace("₫", "").replace(".", "").replace(",", "").trim();
         return Double.parseDouble(cleanedPrice);
     }
-    // dùng try catch tránh mới đầu đăng  nhập giỏ hàng =0 thẻ <b> có thể không có
+    // dùng try catch tránh mới đầu đăng  nhập giỏ hàng =0 thẻ <b> có thể không có giá trị ví dụ là 0
     public int getCurrentCartQuantity() {
         try {
             // XPath: //a[@title='Giỏ hàng của bạn']/b để lấy thẻ <b> (chứa số lượng)
