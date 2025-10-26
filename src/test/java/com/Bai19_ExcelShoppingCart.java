@@ -15,6 +15,7 @@ import com.utils.Utils;
 
 
 public class Bai19_ExcelShoppingCart extends BasicTest {
+    //mvn clean test -Dtest=com.Bai19_ExcelShoppingCart
     public int expectedQuantity = 0;
 
     public double parsePrice(String priceText) {
