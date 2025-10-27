@@ -15,6 +15,7 @@ import com.utils.Utils;
 
 
 public class Bai19_ExcelShoppingCart extends BasicTest {
+    //Bai19_ExcelShoppingCart
     //mvn clean test -Dtest=com.Bai19_ExcelShoppingCart
     public int expectedQuantity = 0;
 

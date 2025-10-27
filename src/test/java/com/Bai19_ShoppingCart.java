@@ -76,7 +76,7 @@ public class Bai19_ShoppingCart extends BasicTest {
         searchFieldLocator.sendKeys(Type);
         Utils.hardWait(5000);
 
-        WebElement option1 = driver.findElement(By.xpath(Option));
+        WebElement option1 = driver.findElement(By.xpath("//a[contains(text(),'" + Option + "')]"));
         option1.click();
         Utils.hardWait(3000);
 
@@ -85,7 +85,7 @@ public class Bai19_ShoppingCart extends BasicTest {
         Utils.hardWait(1000);
         //org.openqa.selenium.support.ui.Select dropdown = new org.openqa.selenium.support.ui.Select(option_Element);
         //dropdown.selectByVisibleText(Origin);
-        WebElement result_Engl = driver.findElement(By.xpath(Origin));
+        WebElement result_Engl = driver.findElement(By.xpath("//option[@value='" + Origin + "']"));
         result_Engl.click();
         Utils.hardWait(1000);
 
@@ -128,7 +128,10 @@ public class Bai19_ShoppingCart extends BasicTest {
     @DataProvider(name = "shoppingData")
     public Object[][] shoppingData() {
         return new Object[][] {
-            {"merc", "(//a[contains(text(),'Bơm nước xe ')])[1]", "//select[@id='pa_xuat-xu']/option[2]" },
+            {"merc", "Bơm nước xe", "england" }, 
+            {"merc", "Bơm nước xe", "germany" }, 
+           // {"merc", "//a[contains(text(),'Bơm nước xe')]", "//option[@value='']" },
+          //  {"merc", "//a[contains(text(),'Bơm nước xe')]", "//option[@value='vietnam']" },
             //{"apple", "VietNam", "20000"}
         };
     }
