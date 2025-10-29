@@ -39,11 +39,7 @@ public class Bai18_TabTest extends BasicTest {
         // Add a small wait to ensure the element is not displayed anymore
         wait.until(ExpectedConditions.invisibilityOf(loginBtn));//invisibilityOf trả về true nếu element ko hiển thị
         Assert.assertFalse(isElementDisplayed(loginBtn), "Nút đăng nhập vẫn hiển thị sau khi đăng nhập thành công.");
-<<<<<<< HEAD
         
-=======
-
->>>>>>> bai-19
         // 1. Lưu lại handle của tab cũ
         String oldTabHandle = driver.getWindowHandle();
 

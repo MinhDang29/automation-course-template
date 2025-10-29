@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.utils.BasicTest;
 import com.utils.Utils;
 
-public class Bai17_ShoppingCartTest extends BasicTest {
+public class Bai20_ShoppingCartTest extends BasicTest {
     public int expectedQuantity = 0;
     public double parsePrice(String priceText) {
         // Loại bỏ ký tự tiền tệ, dấu phẩy (,) và khoảng trắng

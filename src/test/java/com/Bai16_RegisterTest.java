@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement; // Import this
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import com.utils.BasicTest;
 import com.utils.Utils;
 
@@ -20,8 +22,8 @@ public class Bai16_RegisterTest extends BasicTest {
         Assert.assertEquals(driver.getCurrentUrl(), url);
 
         // Input username
-        WebElement emailInp = driver.findElement(By.xpath("//input[@id='reg_email']"));
-        emailInp.sendKeys("testtest@gmail.com");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='reg_email']"))).sendKeys("testtest@gmail.com");
+       
 
         // Input password
         WebElement passwordInp = driver.findElement(By.xpath("//input[@id='reg_password']"));
@@ -30,25 +32,17 @@ public class Bai16_RegisterTest extends BasicTest {
         // Click login button
         WebElement RegisBtn = driver.findElement(By.xpath("//button[@name='register']"));
         RegisBtn.click();
-
-        // Add a small wait to ensure the element is not displayed anymore
-        //Utils.hardWait(2000);
-        //boolean isRegisDiplay = isElementDisplayed(RegisBtn);
-        //Assert.assertTrue(isRegisDiplay);
-    
-
-        Utils.hardWait(5000);
-
+            
         //check Register fail
-        WebElement errorRegisMessage = driver.findElement(By.xpath("//ul[@class='woocommerce-error']"));
+        WebElement errorRegisMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='woocommerce-error']")));
         String errorRegisMessageText = errorRegisMessage.getText();
         System.out.println("Error Message: " + errorRegisMessageText);
         Assert.assertTrue(errorRegisMessageText.contains("An account is already registered with your email address."));   
     }
 
-    public boolean isElementDisplayed(WebElement element){
+    public boolean isElementDisplayed(By by) {
         try {
-            return element.isDisplayed();
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(by)).isDisplayed();
         } catch (Exception e) {
             return false;// TODO: handle exception
         }

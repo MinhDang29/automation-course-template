@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -24,22 +25,38 @@ public class Bai19_ICEHRM_LoginTest extends BasicTest {
         Assert.assertEquals(driver.getCurrentUrl(), url);
 
         //Nhập email
-        WebElement emailInput = driver.findElement(By.xpath("//*[@id='username']"));
-        emailInput.sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='username']"))).sendKeys(email);
+
 
         //Nhập password
          WebElement passwordInput = driver.findElement(By.xpath("//*[@id='password']"));
          passwordInput.sendKeys(password);
 
          //Click nút đăng nhập
-        WebElement loginBtn = driver.findElement(By.xpath("(//*[@type='button'])[1]"));
+        By loginBtnLocator = By.xpath("(//*[@type='button'])[1]");
+        WebElement loginBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(loginBtnLocator));
         loginBtn.click();
-        Utils.hardWait(2000);
-
+        
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("(//*[@type='button'])[1]")));
         // Kiểm tra đăng nhập thành công
-        boolean isLoginDisplay  = isElementDisplayed(loginBtn);
-        Assert.assertFalse(isLoginDisplay);
-        Utils.hardWait(1000);
+        // boolean isLoginDisplay  = isElementDisplayed(By.xpath("(//*[@type='button'])[1]"));
+        //Assert.assertFalse(isLoginDisplay);
+        if (expectedMessage.isEmpty()) { // KIỂM TRA ĐĂNG NHẬP THÀNH CÔNG
+        
+            // Chờ phần tử độc đáo của Dashboard )
+            By dashboardLocator = By.xpath("//div[@class='ant-alert-message']"); 
+        
+            // Chờ trang Dashboard hiển thị
+            wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardLocator));
+
+            // Kiểm tra thông báo hiển thị
+            boolean isLoginDisplay = isElementDisplayed(dashboardLocator);
+            Assert.assertTrue(isLoginDisplay, "Nút thông báo vẫn hiển thị");
+        
+            // KHÔNG CẦN kiểm tra errorMessageText
+            return; // Thoát khỏi hàm nếu thành công
+    }
+      
 
         // kiểm tra message hiện ra 
         By byElementlocator = By.xpath("//*[@class='alert alert-danger']");
@@ -65,15 +82,12 @@ public class Bai19_ICEHRM_LoginTest extends BasicTest {
     //     };  
     // }
 
-    public boolean isElementDisplayed(WebElement element){
-
+    public boolean isElementDisplayed(By by) {
         try {
-            return element.isDisplayed();
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(by)).isDisplayed();
         } catch (Exception e) {
-            // TODO: handle exception
-            return false;
+            return false;// TODO: handle exception
         }
-
     }
         public String getErrorMessage(By byElementlocator){
         
@@ -86,5 +100,6 @@ public class Bai19_ICEHRM_LoginTest extends BasicTest {
             }
 
         }
+        
 
 }
