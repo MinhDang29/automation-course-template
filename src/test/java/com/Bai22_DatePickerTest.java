@@ -21,19 +21,10 @@ public class Bai22_DatePickerTest extends BasicTest {
     HotelPage hotelPage;
     Homepage homepage;
  
-    // 2. Thêm phương thức @BeforeMethod để khởi tạo
-    // TestNG sẽ chạy phương thức này SAU KHI chạy @BeforeMethod của BasicTest
-    // nên driver lúc này đã được tạo
-    @BeforeMethod
-    public void setupTestPages() {
-        hotelPage = new HotelPage(driver);
-        homepage = new Homepage(driver);
-    }
-       
-    
     @Test()
     public void datePickerTest() throws Exception {
-        
+        hotelPage = new HotelPage(driver);
+        homepage = new Homepage(driver);
         // Launch website
         String url = "https://www.ivivu.com/";
         driver.get(url);
