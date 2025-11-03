@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.pages.Homepage;
 import com.pages.HotelPage;
+import com.pages.HotelListPage;
 import com.utils.BasicTest;
 import com.utils.Utils;
 
@@ -20,11 +21,14 @@ public class Bai22_DatePickerTest extends BasicTest {
     // 1. Chỉ KHAI BÁO, không khởi tạo
     HotelPage hotelPage;
     Homepage homepage;
+    HotelListPage hotelListPage;
+
  
     @Test()
     public void datePickerTest() throws Exception {
         hotelPage = new HotelPage(driver);
         homepage = new Homepage(driver);
+        hotelListPage = new HotelListPage(driver);
         // Launch website
         String url = "https://www.ivivu.com/";
         driver.get(url);
@@ -38,7 +42,7 @@ public class Bai22_DatePickerTest extends BasicTest {
         homepage.search();
         
         /// click book
-        hotelPage.continueBy();
+        hotelListPage.continueBy();
         
         // click order
         hotelPage.orderBy();
