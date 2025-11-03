@@ -40,7 +40,7 @@ public class Bai22_DatePickerTest extends BasicTest {
         homepage.clickDatefirst();
         homepage.clickDatesecond();
         homepage.search();
-        
+        //
         /// click book
         hotelListPage.continueBy();
         
