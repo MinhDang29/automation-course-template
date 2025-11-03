@@ -12,8 +12,6 @@
     import org.openqa.selenium.JavascriptExecutor;
     import org.openqa.selenium.WebElement;
 
-
-
     public class HotelPage extends BasePage {
 
         public HotelPage(WebDriver givenDriver) {

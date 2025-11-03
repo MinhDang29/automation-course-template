@@ -10,7 +10,7 @@ import java.time.Duration;
 public class BasePage {
     public WebDriver driver;
     protected WebDriverWait wait; // 
-    //Contructor
+    //Contructor .
     protected BasePage (WebDriver givenDriver) {
         this.driver = givenDriver;
         PageFactory.initElements(this.driver, this);

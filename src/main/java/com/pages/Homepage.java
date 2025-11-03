@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-// Thêm 2 thư viện để xử lý ngày tháng
+// add library
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

@@ -66,6 +66,7 @@ public abstract class BasicTest {
         driver.manage().window().maximize();
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+                    // add driver action
         action = new Actions(driver);
 
     }

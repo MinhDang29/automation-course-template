@@ -43,7 +43,7 @@ public class Bai22_DatePickerTest extends BasicTest {
         //
         /// click book
         hotelListPage.continueBy();
-        
+    
         // click order
         hotelPage.orderBy();
         
