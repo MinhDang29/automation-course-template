@@ -2,13 +2,9 @@ package com;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-//import static org.junit.jupiter.api.Assertions.fail;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement; // Import this
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import com.utils.BasicTest;
 import com.utils.Utils;
 
