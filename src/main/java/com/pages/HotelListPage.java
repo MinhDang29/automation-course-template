@@ -24,7 +24,7 @@
             wait.until(ExpectedConditions.elementToBeClickable(continueBy)).click();
             // wait 2 tab -> new tab
             wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-       // use driver give handle
+       // use driver give handle.
             java.util.Set<String> handles = driver.getWindowHandles();
         String originalHandle = driver.getWindowHandle();
         // switch to new tab see ID -> handle and if handle != original handle -> switch
