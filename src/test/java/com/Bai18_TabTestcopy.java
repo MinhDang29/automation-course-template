@@ -1,125 +1,102 @@
 package com;
 
-import java.util.ArrayList;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+//import static org.junit.jupiter.api.Assertions.fail;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import com.utils.BasicTest;
 import com.utils.Utils;
-// import org.openqa.selenium.we;
 
+import java.time.Duration;
+//import java.util.ArrayList;
 
 public class Bai18_TabTestcopy extends BasicTest {
-
-
-    @Test(dataProvider = "loginData")
-    public void tabTest(String email, String password , String expectedMessage) throws Exception {
-        // Mở trang đăng nhập
+    @Test()
+    public void tabTest() throws Exception {
+        // Launch website
         String url = "https://bantheme.xyz/hathanhauto/tai-khoan/";
         driver.get(url);
         Assert.assertEquals(driver.getCurrentUrl(), url);
 
-        //Nhập email
-        WebElement emailInput = driver.findElement(By.xpath("//*[@id='username']"));
-        emailInput.sendKeys(email);
+        // Input username
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='username']"))).sendKeys("mdangdn29@gmail.com");
 
-        //Nhập password
-         WebElement passwordInput = driver.findElement(By.xpath("//*[@id='password']"));
-         passwordInput.sendKeys(password);
+        // Input password
+        WebElement passwordInp = driver.findElement(By.xpath("//*[@id='password']"));
+        passwordInp.sendKeys("D@ng291199");
 
-         //Click nút đăng nhập
-        WebElement loginBtn = driver.findElement(By.xpath("//button[@name='login']"));
+        // Click login button
+        WebElement loginBtn = driver.findElement(By.xpath("//button[text()='Đăng nhập']"));
         loginBtn.click();
-        Utils.hardWait(3000);
 
-        // Kiểm tra đăng nhập thành công
-        //boolean isLoginDisplay  = isElementDisplayed(loginBtn);
-        //Assert.assertFalse(isLoginDisplay);
-        //Utils.hardWait(3000);
+        // Add a small wait to ensure the element is not displayed anymore
+        boolean isLoginDisplay = isElementDisplayed(By.xpath("//button[text()='Đăng nhập']"));
+        Assert.assertFalse(isLoginDisplay, "Nút đăng nhập vẫn hiển thị sau khi đăng nhập thành công.");
 
-       // WebElement errorMessage = driver.findElement(By.xpath("//ul[@class='woocommerce-error']"));
-        By byElementlocator = By.xpath("//ul[@class='woocommerce-error']");
-        String errorMessageText = getErrorMessage(byElementlocator);
-        System.out.println("Error Message: " + errorMessageText);
-       // Assert.assertTrue(errorMessageText.contains(expectedMessage));  
+        // 1. Lưu lại handle của tab cũ
+        String oldTabHandle = driver.getWindowHandle();
 
-        Assert.assertEquals(errorMessageText, expectedMessage); 
+        // 2. Mở tab mới và chuyển sang tab đó
+        driver.switchTo().newWindow(WindowType.TAB);
+        String newTabHandle = driver.getWindowHandle();
 
+        // 3. Điều hướng đến URL mới trong tab mới
+        String urlnew = "https://bantheme.xyz/hathanhauto";
+        driver.get(urlnew);
+        // Chờ cho URL được cập nhật và xác thực nó. Thêm dấu "/" vì trang web có thể tự động redirect.
+        wait.until(ExpectedConditions.urlToBe(urlnew + "/"));
+        Assert.assertEquals(driver.getCurrentUrl(), urlnew + "/", "URL của tab mới không chính xác.");
+        System.out.println("Đã chuyển đến URL mới thành công: " + driver.getCurrentUrl());
 
-        // WebElement body = driver.findElement(By.tagName("body"));
+        // 4. Quay lại tab cũ và đóng nó
+        driver.switchTo().window(oldTabHandle);
+        driver.close();
+        System.out.println("Đã đóng tab cũ.");
 
-        // Object[] windowHandles=driver.getWindowHandles().toArray();
-        // driver.switchTo().window((String) windowHandles[1]);
-        // driver.switchTo().newWindow(WindowType.TAB);
+        // 5. Chuyển sang tab mới (bây giờ là tab duy nhất còn lại)
+        driver.switchTo().window(newTabHandle);
+        //startWith giúp trang web truy cập đúng  URL dù có dấu "/" ở cuối hay không
+        System.out.println("Đã chuyển về tab mới. URL hiện tại: " + driver.getCurrentUrl());
+        Assert.assertTrue(driver.getCurrentUrl().startsWith(urlnew), "Không chuyển về đúng tab mới.");
 
+        //On the new tab, click on the "Login" button
+        WebElement Personalbutton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'relative login-item')]")));
+        //Personalbutton.click();
+        Assert.assertTrue(isElementDisplayed(By.xpath("//div[contains(@class,'relative login-item')]")), "Nút cá nhân không hiển thị sau khi nhấn vào.");
 
-    //     String oldTab = driver.getWindowHandle();
+        WebElement loginNavBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//strong[@class='block']")));
+        loginNavBtn.click();
+        //wait.until(ExpectedConditions.invisibilityOf(loginNavBtn));
+        Assert.assertFalse(isElementDisplayed(By.xpath("//strong[@class='block']")), "Nút đăng nhập vẫn hiển thị sau khi nhấn vào.");
 
-    //     //mở tab mới
-    //    ((JavascriptExecutor) driver).executeScript("window.open('https://bantheme.xyz/hathanhauto','_blank');");
-    //    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-    //    driver.switchTo().window(tabs.get(1));
-    //    Assert.assertEquals(driver.getCurrentUrl(), "https://bantheme.xyz/hathanhauto/");
-    //    Utils.hardWait(2000);
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//strong[@class='block']")));
+        //Assert.assertFalse(isElementDisplayed2(By.xpath("//strong[@class='block']")), "Nút đăng nhập vẫn hiển thị sau khi nhấn vào.");
 
-    //    driver.switchTo().window(oldTab);
-    //    driver.close();
-    //    System.out.println("Closed the old tab.");
-    //    Utils.hardWait(2000);
-
-    //    driver.switchTo().window(tabs.get(1));
-    //    Utils.hardWait(2000);
-
-    //    WebElement lgBtn = driver.findElement(By.xpath("//strong[text()='Đăng nhập']"));
-    //    lgBtn.click();
-    //    Utils.hardWait(2000);
-
-    //    WebElement verifyAccount = driver.findElement(By.xpath("//p/strong[1]"));
-    //    Assert.assertTrue(verifyAccount.isDisplayed(),("Không tìm thấy tài khoản"));
-
+        //Verify user is still logged in using the Assert method
+        WebElement correctMessage = driver.findElement(By.xpath("//div[@class='woocommerce-MyAccount-content']"));
+        String correctMessageText = correctMessage.getText();
+        System.out.println("correct Message: " + correctMessageText);
+        Assert.assertTrue(correctMessageText.contains("Xin chào mdangdn29 (không phải tài khoản mdangdn29?")); // muốn lấy từ biến email sendkey
 
     }
-    @DataProvider(name = "loginData")
-    public Object[][] loginData(){
-        return new Object[][] {
-            {"mdangdn29@gmail.com","D@ng291199",""},
-            {"","D@ng291199","error message"},
-            {"mdangdn29","123456","error message2"}
-        };  
-    }
-    @DataProvider(name = "loginData2")
-    public Object[][] loginData2(){
-        return new Object[][] {
-            {"mdangdn29@gmail.com","D@ng291199" ,"error message"},
-            {"","D@ng291199"},
-            {"mdangdn29","123456"}
-        };  
-    }
 
-    public boolean isElementDisplayed(WebElement element){
-
+     public boolean isElementDisplayed(By by) {
         try {
-            return element.isDisplayed();
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(by)).isDisplayed();
         } catch (Exception e) {
-            // TODO: handle exception
-            return false;
+            return false;// TODO: handle exception
         }
-
     }
-        public String getErrorMessage(By byElementlocator){
-        
-            try {
-                WebElement element = driver.findElement(byElementlocator);
-                return element.getText();
-            } catch (Exception e) {
-                // TODO: handle exception
-                return "";
-            }
-
-        }
-
+    public boolean isElementDisplayed2(By by) {
+        try {
+            return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+        } catch (Exception e) {
+            return false;// TODO: handle exception
+        }    
+    }
 }
