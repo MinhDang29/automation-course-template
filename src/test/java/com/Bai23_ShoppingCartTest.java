@@ -25,95 +25,98 @@ public class Bai23_ShoppingCartTest extends BasicTest {
 
     @Test()
     public void shoppingCartTest() throws Exception {
-    //     LoginPage loginPage = new LoginPage(driver);
-    //     AccountPage accountPage = new AccountPage(driver); 
-    //     ProductPage productPage = new ProductPage(driver);
-    //     CartPage cartPage = new CartPage(driver);
-    //     // Launch website
-    //     String url = "https://bantheme.xyz/hathanhauto/tai-khoan/";
-    //     loginPage.open(url);
-    //     // Login
-    //     loginPage.fillUsername("mdangdn29@gmail.com")
-    //               .fillPassword("D@ng291199")
-    //               .clickLogin();
+        LoginPage loginPage = new LoginPage(driver);
+        AccountPage accountPage = new AccountPage(driver); 
+        ProductPage productPage = new ProductPage(driver);
+        CartPage cartPage = new CartPage(driver);
 
-    //     // check login success
-    //     boolean isLoginDisplay = loginPage.isElementDisplayed(loginPage.loginLocator);
-    //     Assert.assertFalse(isLoginDisplay);
-    //     // check cart quantity view account    
-    //     expectedQuantity = loginPage.getCurrentCartQuantity();
-    //     System.out.println("Số lượng giỏ hàng ban đầu: " + expectedQuantity);
-    //     // Search for "merc"
-    //     accountPage.search("merc");
-    //     // option after search
-    //     accountPage.clickSearchResult();
-    //     // select option Orginal
-    //     productPage.option_Element();
-    //     // click option Orginal England
-    //     productPage.result_Engl();
-    //     // add to cart
-    //     productPage.addToCart();
-    //     expectedQuantity++;
+        // Launch website
+        // String url = "https://bantheme.xyz/hathanhauto/tai-khoan/";
+        // driver.get(url);
+        // Assert.assertEquals(driver.getCurrentUrl(), url);
+        loginPage.open(loginPage.url);
+        // Login
+        loginPage.fillUsername("mdangdn29@gmail.com")
+                  .fillPassword("D@ng291199")
+                  .clickLogin();
 
-    //     // check button add Item display
-    //     boolean isaddToCartBthDisplay = productPage.isElementDisplayed(productPage.addToCartLocator);
-    //     Assert.assertFalse(isaddToCartBthDisplay);
+        // check login success
+        boolean isLoginDisplay = loginPage.isElementDisplayed(loginPage.loginLocator);
+        Assert.assertFalse(isLoginDisplay);
+        // check cart quantity view account    
+        expectedQuantity = loginPage.getCurrentCartQuantity();
+        System.out.println("Số lượng giỏ hàng ban đầu: " + expectedQuantity);
+        // Search for "merc"
+        accountPage.search("merc");
+        // option after search
+        accountPage.clickSearchResult();
+        // select option Orginal
+        productPage.option_Element();
+        // click option Orginal England
+        productPage.result_Engl();
+        // add to cart
+        productPage.addToCart();
+        expectedQuantity++;
 
-    //     // add item = plus
-    //     cartPage.plusItem();
-    //     expectedQuantity++;
-    //     System.out.println("Số lượng giỏ hàng sau khi thêm sản phẩm: " + expectedQuantity);
+        // check button add Item display
+        boolean isaddToCartBthDisplay = productPage.isElementDisplayed(productPage.addToCartLocator);
+        Assert.assertFalse(isaddToCartBthDisplay);
 
-    //     // update cart after plus item
-    //     cartPage.updateCart();
-    //     //By updateCartLocator = cartPage.updateCartButtonLocator;
-    //     // CHỜ cho nút đó trở lại trạng thái VÔ HIỆU HÓA (disable).
-    //     cartPage.isUpdateCartDisabled();
+        // add item = plus
+        cartPage.plusItem();
+        expectedQuantity++;
+        System.out.println("Số lượng giỏ hàng sau khi thêm sản phẩm: " + expectedQuantity);
 
-    //     // check view item in cart
-    //     String addnewitemText = cartPage.getNameItemcart();
-    //     System.out.println("Message item: " + addnewitemText);
-    //     Assert.assertTrue(addnewitemText.contains("Bơm nước xe Mercedes SLK200, SLK300, GLK200, E260, C350-2742000207 - England"));
+        // update cart after plus item
+        cartPage.updateCart();
+        //By updateCartLocator = cartPage.updateCartButtonLocator;
+        // CHỜ cho nút đó trở lại trạng thái VÔ HIỆU HÓA (disable).
+        cartPage.isUpdateCartDisabled();
 
-    //     // Get unit price
-    //     String unitPriceBaseText = cartPage.getUnitPriceBaseText();
-    //     // Gọi hàm parsePrice từ đối tượng cartPage
-    //     double unitPrice = cartPage.parsePrice(unitPriceBaseText);
-    //     System.out.println("Giá đơn vị sản phẩm: " + unitPrice);
+        // check view item in cart
+        String addnewitemText = cartPage.getNameItemcart();
+        System.out.println("Message item: " + addnewitemText);
+        Assert.assertTrue(addnewitemText.contains("Bơm nước xe Mercedes SLK200, SLK300, GLK200, E260, C350-2742000207 - England"));
 
-    //     // Get temporary price
-    //     String tempPriceText = cartPage.getTempPriceText();
-    //     // Gọi hàm parsePrice từ đối tượng cartPage
-    //     double actualTempPrice = cartPage.parsePrice(tempPriceText); 
-    //     System.out.println("Giá Tạm tính Thực tế: " + actualTempPrice);
+        // Get unit price
+        String unitPriceBaseText = cartPage.getUnitPriceBaseText();
+        // Gọi hàm parsePrice từ đối tượng cartPage
+        double unitPrice = cartPage.parsePrice(unitPriceBaseText);
+        System.out.println("Giá đơn vị sản phẩm: " + unitPrice);
+
+        // Get temporary price
+        String tempPriceText = cartPage.getTempPriceText();
+        // Gọi hàm parsePrice từ đối tượng cartPage
+        double actualTempPrice = cartPage.parsePrice(tempPriceText); 
+        System.out.println("Giá Tạm tính Thực tế: " + actualTempPrice);
        
-    //     // Tính Giá dự kiến (Giá đơn vị * Số lượng dự kiến)
-    //     double expectedTotalPrice = unitPrice * expectedQuantity;
+        // Tính Giá dự kiến (Giá đơn vị * Số lượng dự kiến)
+        double expectedTotalPrice = unitPrice * expectedQuantity;
        
-    //     // ASSERT GIÁ TIỀN
-    //     Assert.assertEquals(expectedTotalPrice, actualTempPrice, 0.001,
-    //         "Lỗi: Giá Tạm tính không khớp. Dự kiến: " + expectedTotalPrice + ", Thực tế: " + actualTempPrice);
+        // ASSERT GIÁ TIỀN
+        Assert.assertEquals(expectedTotalPrice, actualTempPrice, 0.001,
+            "Lỗi: Giá Tạm tính không khớp. Dự kiến: " + expectedTotalPrice + ", Thực tế: " + actualTempPrice);
        
-    //         // print out expected and actual temp price
-    //     System.out.println("Giá Tạm tính Dự kiến: " + expectedTotalPrice); // Sẽ luôn in ra
-    //     System.out.println("Giá Tạm tính Thực tế: " + actualTempPrice);
+            // print out expected and actual temp price
+        System.out.println("Giá Tạm tính Dự kiến: " + expectedTotalPrice); // Sẽ luôn in ra
+        System.out.println("Giá Tạm tính Thực tế: " + actualTempPrice);
         
-    //     // hỏi
-    //    // Biến expectedQuantity chỉ tồn tại trong file test
-    //     String expectedText = String.valueOf(expectedQuantity);
-    //     // Gọi hàm kiểm tra an toàn
-    //     boolean isQuantityCorrect = cartPage.isCartQuantityTextCorrect(expectedText);
-    //     // Bây giờ bạn có thể Assert một cách an toàn
-    //     Assert.assertTrue(isQuantityCorrect, "Lỗi: Số lượng giỏ hàng trên web không khớp với dự kiến.");
+        // hỏi
+       // Biến expectedQuantity chỉ tồn tại trong file test
+        String expectedText = String.valueOf(expectedQuantity);
+        // Gọi hàm kiểm tra an toàn
+        boolean isQuantityCorrect = cartPage.isCartQuantityTextCorrect(expectedText);
+        // Bây giờ bạn có thể Assert một cách an toàn
+        Assert.assertTrue(isQuantityCorrect, "Lỗi: Số lượng giỏ hàng trên web không khớp với dự kiến.");
 
-    //     // (Sau đó bạn vẫn có thể lấy số lượng thực tế để so sánh lần nữa nếu muốn)
-    //     int actualQuantity = cartPage.getCurrentCartQuantity();
-    //     // seems like expectedQuantity always +1 more than actualQuantity
-    //     Assert.assertEquals(expectedQuantity, actualQuantity, 
-    //         "Lỗi: Số lượng giỏ hàng không khớp sau khi thêm sản phẩm. " + 
-    //         "Dự kiến: " + expectedQuantity + ", Thực tế: " + actualQuantity);
-    //     //print out expected and actual cart quantity
-    //     System.out.println("Số lượng giỏ hàng Dự kiến: " + expectedQuantity);
+        // (Sau đó bạn vẫn có thể lấy số lượng thực tế để so sánh lần nữa nếu muốn)
+        int actualQuantity = cartPage.getCurrentCartQuantity();
+        // seems like expectedQuantity always +1 more than actualQuantity
+        Assert.assertEquals(expectedQuantity, actualQuantity, 
+            "Lỗi: Số lượng giỏ hàng không khớp sau khi thêm sản phẩm. " + 
+            "Dự kiến: " + expectedQuantity + ", Thực tế: " + actualQuantity);
+        //print out expected and actual cart quantity
+        System.out.println("Số lượng giỏ hàng Dự kiến: " + expectedQuantity);
           
     }
    

@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import com.pages.BasePage;
+import com.pages.LoginPage;
 public class LoginHTPage extends BasePage{
     
         public LoginHTPage (WebDriver givenDriver) {
@@ -26,7 +27,11 @@ public class LoginHTPage extends BasePage{
         public By loginBtn = By.xpath("//button[text()='Đăng nhập']");
         public By loginLocator = By.xpath("//button[text()='Đăng nhập']");
 
-
+        public String url ="https://bantheme.xyz/hathanhauto/tai-khoan/";
+        public LoginHTPage open(String url) {
+            driver.get(url);
+            return this;
+        }
         
          public LoginHTPage fillEmail(String string) {
             wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInp)).sendKeys(string);

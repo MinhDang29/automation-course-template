@@ -49,10 +49,10 @@ public abstract class BasicTest {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             //headless mode
-            if (Constants.headless){
-                options.addArguments("--headless");
-                options.addArguments("--window-size=1920,1080");
-            }
+            // if (Constants.headless){
+            //     options.addArguments("--headless");
+            //     options.addArguments("--window-size=1920,1080");
+            // }
            
             driver = new ChromeDriver(options);
         }

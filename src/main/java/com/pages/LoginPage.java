@@ -41,9 +41,12 @@
         // @FindBy(xpath = "//button[text()='Đăng nhập']")
         // public WebElement loginLocator;
         public By loginLocator = By.xpath("//button[text()='Đăng nhập']");
+        public String url ="https://bantheme.xyz/hathanhauto/tai-khoan/";
+        public LoginPage open(String url) {
+            driver.get(url);
+            return this;
+        }
 
-
-        
          public LoginPage fillRegemail(String string) {
             wait.until(ExpectedConditions.visibilityOf(regEmailBy));
                 regEmailBy.sendKeys(string);
