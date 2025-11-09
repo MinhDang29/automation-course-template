@@ -48,6 +48,12 @@ public abstract class BasicTest {
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
+            //headless mode
+            if (Constants.headless){
+                options.addArguments("--headless");
+                options.addArguments("--window-size=1920,1080");
+            }
+           
             driver = new ChromeDriver(options);
         }
         else if (browser.equalsIgnoreCase("edge")) {
