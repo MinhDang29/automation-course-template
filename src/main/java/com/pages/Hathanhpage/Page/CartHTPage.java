@@ -14,6 +14,15 @@ public class CartHTPage extends BasePage { // Đã đổi tên class
         super(givenDriver);
     }
 
+    // public void xpathCart (WebDriver driver) {
+    //     plusItemBy = By.xpath("//button[@class='plus']");
+    //     updateCartButtonLocator = By.xpath("//button[text()='Cập nhật giỏ hàng']");
+    //     cartQuantityBy = By.xpath("//a[@title='Giỏ hàng của baise']/b");
+    //     unitPriceBaseBy = By.xpath("(//span[@class='woocommerce-Price-amount amount'])[1]");
+    //     tempPriceElementBy = By.xpath("(//td[@data-title='Tạm tính'])[1]");
+    //     nameItemBy = By.xpath("//a[contains(text(),'Bơm nước xe Mercedes SLK200, SLK300, GLK200, E260, C350-2742000207 - England')]");
+    // }
+
 
     public By plusItemBy = By.xpath("//button[@class='plus']");
     public By updateCartButtonLocator = By.xpath("//button[text()='Cập nhật giỏ hàng']");
