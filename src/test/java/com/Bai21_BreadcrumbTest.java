@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 //import static org.junit.jupiter.api.Assertions.fail;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement; // Import this
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -35,19 +36,47 @@ public class Bai21_BreadcrumbTest extends BasicTest {
         boolean isLoginDisplay = isElementDisplayed(By.xpath("//button[text()='Đăng nhập']"));
         Assert.assertFalse(isLoginDisplay);
         
+        // WebElement MenuItem = driver.findElement(By.xpath("//a[text()='Hệ thống truyền động, Khung gầm']"));
+        // action.moveToElement(MenuItem).perform(); //hover chuột vào menuItem
+        // String MenuItemText = MenuItem.getText().trim();
+
+        // WebElement SupItem = driver.findElement(By.xpath("//a[text()='Hệ thống phanh']"));
+        // action.moveToElement(SupItem).perform(); //hover chuột vào supitem hệ thống phanh
+        // String MenuSupItem = SupItem.getText().trim();
+
+
+        // WebElement douSupItem = driver.findElement(By.xpath("(//a[text()=\"Phanh tay ô tô\"])[1]"));
+        // action.moveToElement(douSupItem).perform(); //hover chuột vào phanh tay oto
+        // String douSupItemText = douSupItem.getText().trim();
+        // douSupItem.click();
+
+        // **KHỐI XỬ LÝ MENU ĐỂ KHẮC PHỤC LỖI TRÊN CI**
+        
         WebElement MenuItem = driver.findElement(By.xpath("//a[text()='Hệ thống truyền động, Khung gầm']"));
-        action.moveToElement(MenuItem).perform(); //hover chuột vào menuItem
         String MenuItemText = MenuItem.getText().trim();
 
         WebElement SupItem = driver.findElement(By.xpath("//a[text()='Hệ thống phanh']"));
-        action.moveToElement(SupItem).perform(); //hover chuột vào supitem hệ thống phanh
         String MenuSupItem = SupItem.getText().trim();
 
-
-        WebElement douSupItem = driver.findElement(By.xpath("(//a[text()=\"Phanh tay ô tô\"])[1]"));
-        action.moveToElement(douSupItem).perform(); //hover chuột vào phanh tay oto
+        By douSupItemLocator = By.xpath("(//a[text()=\"Phanh tay ô tô\"])[1]");
+        
+        // 1. CUỘN TỚI PHẦN TỬ CHA (MenuItem) ĐỂ ĐẢM BẢO MENU HIỂN THỊ TRONG VIEWPORT
+        // Sử dụng JavaScriptExecutor để cuộn phần tử vào giữa (hoặc trên cùng) của màn hình.
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", MenuItem);
+        
+        // 2. Chờ phần tử cuối cùng có thể click được (Cần thiết sau khi cuộn)
+        WebElement douSupItem = waitElementClickable(douSupItemLocator);
         String douSupItemText = douSupItem.getText().trim();
-        douSupItem.click();
+
+        // 3. Sử dụng Action Chain liền mạch để HOVER và CLICK an toàn
+        // (Thực hiện tất cả các hành động hover mà không bị ngắt quãng)
+        action.moveToElement(MenuItem)
+              .moveToElement(SupItem)
+              .moveToElement(douSupItem)
+              .click()
+              .build()
+              .perform();
+
         String Expectedtext = ("Trang chủ / Sản phẩm / "+ MenuItemText+" / "+MenuSupItem +" / "+douSupItemText);
         System.out.println(Expectedtext);
         
