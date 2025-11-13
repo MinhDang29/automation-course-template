@@ -3,11 +3,9 @@ package com;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-//import static org.junit.jupiter.api.Assertions.fail;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement; // Import this
+import org.openqa.selenium.WebElement; 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.utils.BasicTest;
@@ -36,66 +34,61 @@ public class Bai21_BreadcrumbTest extends BasicTest {
         boolean isLoginDisplay = isElementDisplayed(By.xpath("//button[text()='Đăng nhập']"));
         Assert.assertFalse(isLoginDisplay);
         
-        // WebElement MenuItem = driver.findElement(By.xpath("//a[text()='Hệ thống truyền động, Khung gầm']"));
-        // action.moveToElement(MenuItem).perform(); //hover chuột vào menuItem
-        // String MenuItemText = MenuItem.getText().trim();
-
-        // WebElement SupItem = driver.findElement(By.xpath("//a[text()='Hệ thống phanh']"));
-        // action.moveToElement(SupItem).perform(); //hover chuột vào supitem hệ thống phanh
-        // String MenuSupItem = SupItem.getText().trim();
-
-
-        // WebElement douSupItem = driver.findElement(By.xpath("(//a[text()=\"Phanh tay ô tô\"])[1]"));
-        // action.moveToElement(douSupItem).perform(); //hover chuột vào phanh tay oto
-        // String douSupItemText = douSupItem.getText().trim();
-        // douSupItem.click();
-
-        // **KHỐI XỬ LÝ MENU ĐỂ KHẮC PHỤC LỖI TRÊN CI**
+        // --- Cải thiện độ ổn định cho MENU HOVER ---
         
-        WebElement MenuItem = driver.findElement(By.xpath("//a[text()='Hệ thống truyền động, Khung gầm']"));
+        // 1. MenuItem: Chờ clickable
+        By menuItemLocator = By.xpath("//a[text()='Hệ thống truyền động, Khung gầm']");
+        WebElement MenuItem = wait.until(ExpectedConditions.elementToBeClickable(menuItemLocator));
+
+        action.moveToElement(MenuItem).perform(); 
         String MenuItemText = MenuItem.getText().trim();
 
-        WebElement SupItem = driver.findElement(By.xpath("//a[text()='Hệ thống phanh']"));
+        // 2. SupItem: Chờ clickable
+        By supItemLocator = By.xpath("//a[text()='Hệ thống phanh']");
+        WebElement SupItem = wait.until(ExpectedConditions.elementToBeClickable(supItemLocator));
+        
+        action.moveToElement(SupItem).perform(); //hover chuột vào supitem hệ thống phanh
         String MenuSupItem = SupItem.getText().trim();
 
+        // 3. douSupItem: Chờ clickable
         By douSupItemLocator = By.xpath("(//a[text()=\"Phanh tay ô tô\"])[1]");
+        WebElement douSupItem = wait.until(ExpectedConditions.elementToBeClickable(douSupItemLocator));
         
-        // 1. CUỘN TỚI PHẦN TỬ CHA (MenuItem) ĐỂ ĐẢM BẢO MENU HIỂN THỊ TRONG VIEWPORT
-        // Sử dụng JavaScriptExecutor để cuộn phần tử vào giữa (hoặc trên cùng) của màn hình.
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", MenuItem);
-        
-        // 2. Chờ phần tử cuối cùng có thể click được (Cần thiết sau khi cuộn)
-        WebElement douSupItem = waitElementClickable(douSupItemLocator);
+        action.moveToElement(douSupItem).perform(); //hover chuột vào phanh tay oto
         String douSupItemText = douSupItem.getText().trim();
+        douSupItem.click(); // Click để chuyển trang
 
-        // 3. Sử dụng Action Chain liền mạch để HOVER và CLICK an toàn
-        // (Thực hiện tất cả các hành động hover mà không bị ngắt quãng)
-        action.moveToElement(MenuItem)
-              .moveToElement(SupItem)
-              .moveToElement(douSupItem)
-              .click()
-              .build()
-              .perform();
-//
         String Expectedtext = ("Trang chủ / Sản phẩm / "+ MenuItemText+" / "+MenuSupItem +" / "+douSupItemText);
-        System.out.println(Expectedtext);
+        System.out.println("Đường dẫn mong đợi: " + Expectedtext);
         
-        boolean BreadcrumbNav = isElementDisplayed(By.xpath("//section[@class='flw section section-breacrumb']"));
-        Assert.assertTrue(BreadcrumbNav);
+        
+        // --- Xử lý Breadcrumb sau khi chuyển trang ---
+        By breadcrumbLocator = By.xpath("//section[@class='flw section section-breacrumb']");
+        
+        
+        // Tìm phần tử breadcrumb (Sau khi chuyển trang, có thể cần tìm lại hoặc dùng wait.until)
+        WebElement BreadcrumbNavim = wait.until(ExpectedConditions.presenceOfElementLocated(breadcrumbLocator));
+        
+        // 2. Thực hiện cuộn (scrollIntoView) đến phần tử breadcrumb
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", BreadcrumbNavim);
+        
+        // 3. Kiểm tra tính hiển thị bằng phương thức isElementDisplayed
+        boolean BreadcrumbNav = isElementDisplayed(breadcrumbLocator); 
+        Assert.assertTrue(BreadcrumbNav, "Breadcrumb navigation không hiển thị sau khi cuộn.");
 
-        WebElement BreadcrumbNavim = driver.findElement(By.xpath("//section[@class='flw section section-breacrumb']"));
-        //WebElement BreadcrumbNavi = driver.findElement(By.xpathPath(//section[@class='flw section section-breacrumb']);
+        
+        // 4. Lấy văn bản và so sánh
         String BreadcrumbNavText = BreadcrumbNavim.getText().trim();
         Assert.assertEquals(BreadcrumbNavText, Expectedtext,"Sai đường dẫn ");
 
     }
-   
+    
 
      public boolean isElementDisplayed(By by) {
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(by)).isDisplayed();
         } catch (Exception e) {
-            return false;// TODO: handle exception
+            return false;
         }
     }
 }
